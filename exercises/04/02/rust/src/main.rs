@@ -15,6 +15,7 @@ fn replace_special_characters(s: String) -> String {
 }
 
 fn main() {
+    println!("Enter string: ");
     let mut input = String::new();
     std::io::stdin().read_line(&mut input).unwrap();
     let line = input.trim_end().to_string();
