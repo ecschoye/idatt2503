@@ -5,11 +5,8 @@
 
 ## Installing dependencies
 
-### Debian based distributions
-`sudo apt-get install binutils`
-
-### Arch Linux based distributions
-`sudo pacman -S binutils`
+### Ubuntu based distributions
+`sudo apt install binutils`
 
 ## Compiling and running
 ```sh
@@ -17,10 +14,6 @@ git clone https://gitlab.com/ntnu-tdat3020/c-example
 cd c-example
 ```
 
-### Alternative 1 in [juCi++](https://gitlab.com/cppit/jucipp):
-Run `juci .` and choose Compile and Run in the Project menu.
-
-### Alternative 2:
 ```sh
 gcc main.c a_function.c more_functions.c -o c_example
 ./c_example
@@ -87,3 +80,32 @@ gcc main.c -lfunctions -o c_example
 ```sh
 ldd c_example
 ```
+
+## Fixing Typo in Dynamic Library Without Recompiling `c_example`
+
+This section demonstrates that a typo in a dynamically linked library (`libfunctions.so`) can be corrected without having to recompile the main executable (`c_example`).
+
+### Before Fixing the Typo
+
+Run `./c_example` and observe the output. Here's what the output looks like before fixing the typo:
+
+![Before Fixing Typo](https://github.com/ecschoye/idatt2503/blob/main/exercises/04/03/before.png)
+
+### Fixing the Typo
+
+To fix the typo, modify the source code of either `a_function.c` or `more_functions.c` (whichever contains the typo). Then recompile and replace the old `libfunctions.so` as follows:
+
+```sh
+gcc -c -fPIC a_function.c more_functions.c
+gcc -shared a_function.o more_functions.o -o libfunctions.so
+sudo cp libfunctions.so /usr/lib
+```
+
+### After fixing the typo
+
+Run `./c_example` again without recompiling it. Here's what the output looks like after fixing the typo:
+
+
+![After Fixing Typo](https://github.com/ecschoye/idatt2503/blob/main/exercises/04/03/after.png)
+
+By following these steps, you will see that the typo is fixed even without recompiling `c_example`.
