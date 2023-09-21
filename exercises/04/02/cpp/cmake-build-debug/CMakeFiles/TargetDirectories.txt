@@ -1,0 +1,3 @@
+/Users/edvardschoyen/Documents/studie/5-semester/idatt2503/exercises/04/02/cpp/cmake-build-debug/CMakeFiles/cpp.dir
+/Users/edvardschoyen/Documents/studie/5-semester/idatt2503/exercises/04/02/cpp/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/edvardschoyen/Documents/studie/5-semester/idatt2503/exercises/04/02/cpp/cmake-build-debug/CMakeFiles/rebuild_cache.dir
