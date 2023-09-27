@@ -2,7 +2,7 @@
 
 ## Task 1
 
-Based on this example repository: [NTNU Assembly Example](https://gitlab.com/ntnu-tdat3020/assembly-example).
+Based on this example repository: [assembly-example](https://gitlab.com/ntnu-tdat3020/assembly-example).
 
 - Modify the message to say "Hello World from Trondheim!"
 - Make sure the message is written 3 times to standard error instead of standard output.
@@ -16,6 +16,8 @@ In C, C++, and Rust, create a function that takes a string as input and returns 
 - Include examples and print statements within the `main()` function in each programming language to demonstrate the usage of this function.
 
 ## Task 3
+
+Based on this example repository: [c-example](https://gitlab.com/ntnu-tdat3020/c-example).
 
 Follow the instructions here to create a dynamic library and link it to the executable file `c_example`.
 
