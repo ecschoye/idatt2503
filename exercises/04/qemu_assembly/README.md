@@ -21,7 +21,7 @@ This project provides a Docker-based solution for running x86 assembly code on n
 2. Navigate to the project directory:
 
     ```bash
-    cd path-to-your-folder
+    cd exercises/04/qemu_assembly/
     ```
 
 3. Build the Docker image and start the container:
@@ -43,14 +43,14 @@ This project provides a Docker-based solution for running x86 assembly code on n
 1. To compile your x86 assembly code, navigate to where your `.s` files are stored and use the following commands:
 
     ```bash
-    nasm -f elf64 your-file.s
-    ld your-file.o -o your-executable
+    nasm -f elf64 hello.s
+    ld hello.o -o hello
     ```
 
 2. To run your compiled code:
 
     ```bash
-    ./your-executable
+    ./hello
     ```
 
 ## Persistence
@@ -63,3 +63,4 @@ To stop and remove the running container, navigate to the project directory and 
 
 ```bash
 docker-compose down
+```
