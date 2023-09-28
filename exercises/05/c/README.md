@@ -3,6 +3,8 @@
 ## Overview
 This repository contains code for a fuzzing exercise in the IDATT2503 course at NTNU, Trondheim. The code includes a C program that replaces special characters in a string (`&`, `<`, `>`), a fuzzer to test this program, and a Continuous Integration (CI) setup.
 
+ ![C CI Fuzzing with Address Sanitizer](https://github.com/ecschoye/idatt2503/actions/workflows/c_fuzzing.yml/badge.svg)
+
 ## File Structure
 - `main.c`: Main program to test the `replaceSpecialCharacters` function.
 - `replace.c` / `replace.h`: Contains the `replaceSpecialCharacters` function.
