@@ -1,0 +1,1 @@
+/opt/homebrew/opt/llvm/bin/clang  -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names -L/usr/local/opt/llvm/lib -fsanitize=fuzzer,address CMakeFiles/replace_fuzzer.dir/fuzz_main.c.o CMakeFiles/replace_fuzzer.dir/replace.c.o -o replace_fuzzer   -L/opt/homebrew/opt/llvm/lib 
