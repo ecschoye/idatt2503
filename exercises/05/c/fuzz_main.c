@@ -14,7 +14,7 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
     */
     char *result = replaceSpecialCharacters(str); 
     if (result != NULL) {
-    ///    free(result);
+        free(result);
     }
 
     free(str);
