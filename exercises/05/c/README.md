@@ -1,18 +1,48 @@
-Split main.c into main.c, replace.c/ replace.h and fuzz_main.c
+# Fuzzing Exercise for IDATT2503
 
-also made this Cmakelistxt file 
+## Overview
+This repository contains code for a fuzzing exercise in the IDATT2503 course at NTNU, Trondheim. The code includes a C program that replaces special characters in a string (`&`, `<`, `>`), a fuzzer to test this program, and a Continuous Integration (CI) setup.
 
-cmake_minimum_required(VERSION 3.24)
-project(c C)
+## File Structure
+- `main.c`: Main program to test the `replaceSpecialCharacters` function.
+- `replace.c` / `replace.h`: Contains the `replaceSpecialCharacters` function.
+- `fuzz_main.c`: Contains the LLVM fuzzer test.
+- `CMakeLists.txt`: CMake build configuration.
+- `.github/workflows/c_fuzzing.yml`: GitHub Actions CI configuration.
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -Wall -Wextra")
+## Build and Run
 
-# Main executable
-add_executable(c main.c replace.c)
-target_compile_options(c PRIVATE -Wall -Wextra)
+### Building Main Program
+```bash
+mkdir build
+cd build
+cmake ..
+make
+```
 
-# Fuzzer executable
-add_executable(replace_fuzzer fuzz_main.c replace.c)
-target_compile_options(replace_fuzzer PRIVATE -fsanitize=fuzzer,address)
-target_link_options(replace_fuzzer PRIVATE -fsanitize=fuzzer,address)
+Run the main program:
 
+```bash
+./c
+```
+
+### Building and Running the Fuzzer
+```bash
+mkdir build
+cd build
+cmake ..
+make
+```
+
+Run the fuzzer:
+
+```bash
+./replace_fuzzer -max_total_time=60
+```
+
+### Continuous Integration
+The repository is configured to use GitHub Actions for CI. The workflow runs fuzzing tests with Address Sanitizer enabled.
+
+
+## Using Address Sanitizer
+Address Sanitizer is enabled by adding the `-fsanitize=address` flag in the `CMakeLists.txt` and during CI.
