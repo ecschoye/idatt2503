@@ -1,1 +1,0 @@
-/opt/homebrew/opt/llvm/bin/clang  -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names -L/usr/local/opt/llvm/lib CMakeFiles/c.dir/main.c.o CMakeFiles/c.dir/replace.c.o -o c   -L/opt/homebrew/opt/llvm/lib 

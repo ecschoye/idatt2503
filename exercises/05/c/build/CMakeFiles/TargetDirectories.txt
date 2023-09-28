@@ -1,4 +1,0 @@
-/Users/edvardschoyen/studie/idatt2503/exercises/05/c/build/CMakeFiles/c.dir
-/Users/edvardschoyen/studie/idatt2503/exercises/05/c/build/CMakeFiles/replace_fuzzer.dir
-/Users/edvardschoyen/studie/idatt2503/exercises/05/c/build/CMakeFiles/edit_cache.dir
-/Users/edvardschoyen/studie/idatt2503/exercises/05/c/build/CMakeFiles/rebuild_cache.dir

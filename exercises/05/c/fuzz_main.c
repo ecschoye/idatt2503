@@ -9,7 +9,13 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
     memcpy(str, data, size);
     str[size] = '\0';
 
-    replaceSpecialCharacters(str);
+    /*
+        added this to fix memory leak
+    */
+    char *result = replaceSpecialCharacters(str); 
+    if (result != NULL) {
+        free(result);
+    }
 
     free(str);
 
