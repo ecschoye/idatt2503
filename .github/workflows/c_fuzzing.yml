@@ -1,0 +1,35 @@
+name: C CI Fuzzing with Address Sanitizer
+
+on:
+  push:
+    paths:
+      - 'exercises/05/**'
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Install Dependencies
+      run: sudo apt-get install -y cmake clang
+
+    - name: Prepare Build Directory
+      run: |
+        cd exercises/05/c/
+        mkdir build
+        cd build
+
+    - name: Configure CMake and Build
+      run: |
+        cd exercises/05/c/build
+        CC=clang cmake -DCMAKE_C_FLAGS="-fsanitize=address" ..
+        make
+
+    - name: Run Fuzzer
+      run: |
+        cd exercises/05/c/build
+        ./replace_fuzzer -max_total_time=60
