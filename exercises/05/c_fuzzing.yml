@@ -20,22 +20,22 @@ jobs:
 
     - name: Prepare Build Directory
       run: |
-        cd exercises/05/c/
+        cd exercises/05/
         mkdir build
         cd build
 
     - name: Configure CMake and Build
       run: |
-        cd exercises/05/c/build
+        cd exercises/05/build
         CC=clang cmake ..
         make
 
     - name: Run Fuzzer
       run: |
-        cd exercises/05/c/build
+        cd exercises/05/build
         ./tests/replace_fuzzer_test -max_total_time=60
 
     - name: Run Tests
       run: |
-        cd exercises/05/c/build
+        cd exercises/05/build
         ./tests/replace_test
