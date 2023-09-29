@@ -5,6 +5,7 @@ on:
     paths:
       - 'exercises/05/**'
     branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build:
