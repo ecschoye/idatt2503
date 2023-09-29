@@ -3,6 +3,11 @@
 #include "replace.h"
 
 char* replaceSpecialCharacters(char *input) {
+
+    if (input == NULL) {
+        return NULL;
+    }
+
     size_t len = strlen(input);
     size_t newLen = len;
     for (size_t i = 0; i < len; ++i) {

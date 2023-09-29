@@ -8,9 +8,11 @@ This repository contains code for a fuzzing exercise in the IDATT2503 course at 
 ## File Structure
 - `main.c`: Main program to test the `replaceSpecialCharacters` function.
 - `replace.c` / `replace.h`: Contains the `replaceSpecialCharacters` function.
-- `fuzz_main.c`: Contains the LLVM fuzzer test.
 - `CMakeLists.txt`: CMake build configuration.
-- `.github/workflows/c_fuzzing.yml`: GitHub Actions CI configuration.
+- `tests/replace_fuzzer_test.c`: Contains the LLVM fuzzer test.
+- `tests/replace_test.c`: Contains the unit tests.
+- `tests/CMakeLists.txt`: CMake build configuration for tests.
+- `c_fuzzing.yml`: GitHub Actions CI configuration.
 
 ## Build and Run
 
@@ -18,28 +20,34 @@ This repository contains code for a fuzzing exercise in the IDATT2503 course at 
 ```bash
 mkdir build
 cd build
-cmake ..
+CC=clang cmake ..
 make
 ```
 
 Run the main program:
 
 ```bash
-./c
+./build/c
 ```
 
 ### Building and Running the Fuzzer
 ```bash
 mkdir build
 cd build
-cmake ..
+CC=clang cmake ..
 make
 ```
 
 Run the fuzzer:
 
 ```bash
-./replace_fuzzer -max_total_time=60
+./build/tests/replace_fuzzer_test -max_total_time=60
+```
+
+Run tests:
+
+```bash
+./build/tests/replace_test
 ```
 
 ### Continuous Integration
