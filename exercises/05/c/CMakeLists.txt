@@ -1,16 +1,13 @@
 cmake_minimum_required(VERSION 3.24)
 project(c C)
 
-if(CMAKE_C_COMPILER_ID MATCHES "Clang")
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address")
-endif()
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -Wall -Wextra")
 
+add_library(replace STATIC replace.c)
+target_include_directories(replace INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
-# Main executable
 add_executable(c main.c replace.c)
-target_compile_options(c PRIVATE -Wall -Wextra)
+target_link_libraries(c replace)
 
-# Fuzzer executable
-add_executable(replace_fuzzer fuzz_main.c replace.c)
-target_compile_options(replace_fuzzer PRIVATE -fsanitize=fuzzer,address)
-target_link_options(replace_fuzzer PRIVATE -fsanitize=fuzzer,address)
+enable_testing()
+add_subdirectory(tests)

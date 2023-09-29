@@ -26,10 +26,15 @@ jobs:
     - name: Configure CMake and Build
       run: |
         cd exercises/05/c/build
-        CC=clang cmake -DCMAKE_C_FLAGS="-fsanitize=address" ..
+        CC=clang cmake ..
         make
 
     - name: Run Fuzzer
       run: |
         cd exercises/05/c/build
-        ./replace_fuzzer -max_total_time=60
+        ./replace_fuzzer_test -max_total_time=60
+
+    - name: Replace Test
+      run: |
+        cd exercises/05/c/build
+        ./replace_test
