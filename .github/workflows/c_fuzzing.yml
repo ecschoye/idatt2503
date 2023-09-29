@@ -32,9 +32,9 @@ jobs:
     - name: Run Fuzzer
       run: |
         cd exercises/05/c/build
-        ./replace_fuzzer_test -max_total_time=60
+        ./tests/replace_fuzzer_test -max_total_time=60
 
-    - name: Replace Test
+    - name: Run Tests
       run: |
         cd exercises/05/c/build
-        ./replace_test
+        ./tests/replace_test
