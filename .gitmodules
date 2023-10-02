@@ -1,0 +1,3 @@
+[submodule "exercises/03"]
+	path = exercises/03
+	url = git@github.com:ecschoye/free-lounge.git
