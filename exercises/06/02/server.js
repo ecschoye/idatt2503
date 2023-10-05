@@ -11,7 +11,7 @@ const salt = 'somesalt';
 const keySize = 512/32;
 const iterations = 1000;
 
-const users = [ { username: 'user1', password: 'password1' }, { username: 'user2', password: 'password2' } ];
+const users = [ { username: 'user', password: '05c3cea53cb17d68ccb4173402d68d13f803ef78b383023373257c1340542f5caacaccd44fd70ae80387e77c2307186d758c040dc997ffad694f00c8438b0eff' }];
 app.post('/register', bodyParser.json(), (req, res) => {
     const { username, clientHash } = req.body;
 
@@ -21,6 +21,7 @@ app.post('/register', bodyParser.json(), (req, res) => {
         res.json({ success: false });
     }
     else {
+        console.log(`Registering user ${username} with password hash ${serverHash}`)
         users.push({ username, password: serverHash });
         res.json({ success: true });
     }
