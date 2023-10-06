@@ -29,18 +29,13 @@ app.post('/register', bodyParser.json(), (req, res) => {
 
 app.post('/login', bodyParser.json(), (req, res) => {
     const { username, clientHash } = req.body;
+    const serverHash = PBKDF2(clientHash, salt, { keySize: keySize, iterations: iterations }).toString();
 
-    if (users.find(user => user.username === username)) {
-
-        const serverHash = PBKDF2(clientHash, salt, { keySize: keySize, iterations: iterations }).toString();
-
-        if (users.find(user => user.username === username && user.password === serverHash)) {
-            res.json({ success: true });
-        } else {
-            res.json({ success: false });
-        }
+    if (users.find(user => user.username === username && user.password === serverHash)) {
+        console.log(`User ${username} logged in`);
+        res.json({ success: true });
     } else {
-        res.json({ success: false });
+        res.json({success: false});
     }
 });
 
