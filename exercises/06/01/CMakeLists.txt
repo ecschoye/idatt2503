@@ -15,5 +15,5 @@ endif()
 find_package(OpenSSL REQUIRED)
 include_directories(${OPENSSL_INCLUDE_DIR})
 
-add_executable(One main.cpp)
-target_link_libraries(One ${OPENSSL_CRYPTO_LIBRARY})
+add_executable(01 main.cpp)
+target_link_libraries(01 ${OPENSSL_CRYPTO_LIBRARY})
