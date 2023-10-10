@@ -6,7 +6,7 @@
       <input type="password" v-model="registerPassword" placeholder="Password" class="input-field" />
       <button type="submit" class="submit-button">Register User</button>
     </form>
-    <p v-if="registerMessage" class="message">{{ registerMessage }}</p>
+    <p v-if="registerMessage" :class="['message', { 'message-success': isSuccess(registerMessage), 'message-failed': !isSuccess(registerMessage) }]">{{ registerMessage }}</p>
 
     <form @submit.prevent="login" class="form">
       <h1>Login</h1>
@@ -14,7 +14,7 @@
       <input type="password" v-model="loginPassword" placeholder="Password" class="input-field" />
       <button type="submit" class="submit-button">Login</button>
     </form>
-    <p v-if="loginMessage" class="message">{{ loginMessage }}</p>
+    <p v-if="loginMessage" :class="['message', { 'message-success': isSuccess(loginMessage), 'message-failed': !isSuccess(loginMessage) }]">{{ loginMessage }}</p>
   </div>
 </template>
 
@@ -37,6 +37,8 @@ export default {
     const loginPassword = ref('');
     const registerMessage = ref('');
     const loginMessage = ref('');
+
+    const isSuccess = (message: string) => message.includes('successful') || message.includes('created');
 
     const hashPassword = (password: string) => {
       return PBKDF2(password, salt, { keySize, iterations }).toString();
@@ -72,7 +74,8 @@ export default {
       register,
       login,
       registerMessage,
-      loginMessage
+      loginMessage,
+      isSuccess
     };
   },
 };
@@ -96,6 +99,7 @@ export default {
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 20px;
+  width: 300px;
 }
 
 .input-field {
@@ -119,9 +123,18 @@ export default {
   background-color: #45a049;
 }
 
-.message {
+.message-success {
+  color: black;
+}
+
+.message-failed {
   color: red;
+}
+
+.message {
   font-size: 16px;
   margin-top: 10px;
+  transition: opacity 1s ease-in-out;
 }
+
 </style>
