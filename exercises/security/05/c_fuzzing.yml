@@ -3,7 +3,7 @@ name: C CI Fuzzing with Address Sanitizer
 on:
   push:
     paths:
-      - 'exercises/05/**'
+      - 'exercises/security/05/**'
     branches: [ "main" ]
   workflow_dispatch:
 
@@ -20,22 +20,22 @@ jobs:
 
     - name: Prepare Build Directory
       run: |
-        cd exercises/05/
+        cd exercises/security/05/
         mkdir build
         cd build
 
     - name: Configure CMake and Build
       run: |
-        cd exercises/05/build
+        cd exercises/security/05/build
         CC=clang cmake ..
         make
 
     - name: Run Fuzzer
       run: |
-        cd exercises/05/build
+        cd exercises/security/05/build
         ./tests/replace_fuzzer_test -max_total_time=60
 
     - name: Run Tests
       run: |
-        cd exercises/05/build
+        cd exercises/security/05/build
         ./tests/replace_test
