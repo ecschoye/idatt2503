@@ -2,7 +2,7 @@ def caesar_cipher(x):
     return (x + 3) % 32
 
 def caesar_decipher(x):
-    return (x - 3) % 32
+    return (x + 32 - 3) % 32
 
 
 def bit_xor(a, b):
@@ -19,40 +19,29 @@ IV = 13
 
 
 def encrypt(_plaintext):
-    numbers = [alphabet.index(x) for x in _plaintext]
-
     encrypted_message = []
     previous_block = IV
 
-    for i in range(0, len(numbers), block_size):
-        # sublist containing numerical values for current block
-        block = numbers[i:i + block_size]
-        # xor with previous block
-        xor_block = [bit_xor(x, previous_block) for x in block]
-        # encrypted each element of xored block
-        encrypted_block = [caesar_cipher(x) for x in xor_block]
-        # update previous block to the last element of current encrypted block
-        previous_block = encrypted_block[-1]
-        # add encrypted block to encrypted message
-        encrypted_message.extend(encrypted_block)
+    for i in range(len(_plaintext)):
+        block = alphabet.index(_plaintext[i])
+        char = alphabet[caesar_cipher(bit_xor(block, previous_block))]
+        previous_block = alphabet.index(char)
+        encrypted_message.append(char)
 
-    encrypted_text = ''.join([alphabet[num] for num in encrypted_message])
+    encrypted_text = ''.join(encrypted_message)
     return encrypted_text
 
 def decrypt(_ciphertext):
-    numbers = [alphabet.index(x) for x in _ciphertext]
-
     decrypted_message = []
     previous_block = IV
 
-    for i in range(0, len(numbers), block_size):
-        block = numbers[i:i + block_size]
-        decrypted_block = [caesar_decipher(x) for x in block]
-        xor_block = [bit_xor(x, previous_block) for x in decrypted_block]
-        previous_block = block[-1] if block else 0
-        decrypted_message.extend(xor_block)
-
-    decrypted_text = ''.join([alphabet[num] for num in decrypted_message])
+    for i in range(len(_ciphertext)):
+        block = alphabet.index(_ciphertext[i])
+        char = alphabet[bit_xor(caesar_decipher(block), previous_block)]
+        previous_block = alphabet.index(_ciphertext[i])
+        decrypted_message.append(char)
+    
+    decrypted_text = ''.join(decrypted_message)
     return decrypted_text
 
 
