@@ -11,23 +11,13 @@ x2 = "02000000000000000000000000000000"
 def hex_to_bytes(hex):
     return bytes.fromhex(hex)
 
+
 def hex_to_4x4matrix(hex_bytes):
     return np.array(list(hex_bytes)).reshape(4, 4).T
 
-def bytes_to_matrix(byte_arr):
-    return np.array(byte_arr, dtype=np.uint8).reshape(4, 4).T
+x1_array = hex_to_bytes(x1)
+K1_array = hex_to_bytes(K1)
 
-def matrix_to_bytes(matrix):
-    return matrix.T.reshape(16,).tobytes()
-
-def matrix_to_hex(matrix):
-    return matrix_to_bytes(matrix).hex()
-
-
-K1 = hex_to_bytes(K1)
-K2 = hex_to_bytes(K2)
-x1 = hex_to_bytes(x1)
-x2 = hex_to_bytes(x2)
 
 def galois_multiplication(a, b):
     p = 0
@@ -70,7 +60,6 @@ class AES:
 
     rcon = [0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1B, 0x36]
 
-
     def add_round_key(self):
         self.state = self.state ^ self.key
         return self.state
@@ -105,7 +94,6 @@ class AES:
                     result[i][j] ^= galois_multiplication(fixed_matrix[i][k], self.state[k][j])
 
         self.state = result
-
         return self.state
 
     def key_expansion(self):
@@ -132,8 +120,63 @@ class AES:
     def get_round_key(self, round):
         return self.round_keys[:, round * 4:(round + 1) * 4]
 
+    def run_with_print(self):
+        initial_round_key = self.get_round_key(0)
+
+        print("key expansion to hex")
+        for i in range(4):
+            for j in range(4 * (self.rounds + 1)):
+                print(f"{self.round_keys[i][j]:02X}", end=" ")
+            print()
+
+        print("initial state in hex")
+        for i in range(4):
+            for j in range(4):
+                print(f"{self.state[i][j]:02X}", end=" ")
+            print()
+
+        for i in range(4):
+            for j in range(4):
+                self.state[i][j] ^= initial_round_key[i][j]
+
+        print("after add round key")
+        for i in range(4):
+            for j in range(4):
+                print(f"{self.state[i][j]:02X}", end=" ")
+            print()
+
+        for round_num in range(1, self.rounds + 1):
+            self.sub_bytes()
+            print(f"after sub_bytes in round {round_num}")
+            for i in range(4):
+                for j in range(4):
+                    print(f"{self.state[i][j]:02X}", end=" ")
+                print()
+            self.shift_rows()
+            print(f"after shift_rows in round {round_num}")
+            for i in range(4):
+                for j in range(4):
+                    print(f"{self.state[i][j]:02X}", end=" ")
+                print()
+
+            if round_num != self.rounds:
+                self.mix_columns()
+
+            round_key = self.get_round_key(round_num)
+            for i in range(4):
+                for j in range(4):
+                    self.state[i][j] ^= round_key[i][j]
+
+            print(f"after add round key in round {round_num}")
+            for i in range(4):
+                for j in range(4):
+                    print(f"{self.state[i][j]:02X}", end=" ")
+                print()
+        return self.state
+
     def run(self):
         initial_round_key = self.get_round_key(0)
+
         for i in range(4):
             for j in range(4):
                 self.state[i][j] ^= initial_round_key[i][j]
@@ -153,71 +196,23 @@ class AES:
         return self.state
 
 
-if __name__ == "__main__":
-    initial_state = hex_to_4x4matrix(x1)
-    initial_key = hex_to_4x4matrix(K1)
+def fix_aes():
+    initial_state = hex_to_4x4matrix(x1_array)
+    initial_key = hex_to_4x4matrix(K1_array)
 
-    # Displaying the initial key
     print("========= Initial Configuration =========")
     print(f"Initial key K1:")
     print(initial_key)
     print()
 
-    # Displaying the initial state
     print(f"Initial state x1:")
     print(initial_state)
     print()
 
     print("========= One Round of AES Encryption =========")
-    aes = AES(initial_key, initial_state, 1)
-    final_state = aes.run()
-
-    # Displaying the final state for one round of AES encryption
-    final_state_hex = matrix_to_hex(final_state)
-    print("Final state:")
-    print(final_state)
-    print()
-
-    # Displaying the final state in hexadecimal format
-    print(f"Final state in hex: {final_state_hex}")
-    print()
-
-    initial_state = hex_to_4x4matrix(x2)
-
-    # Displaying the initial state
-    print(f"Initial state x2:")
-    print(initial_state)
-    print()
-
-    print("========= One Round of AES Encryption =========")
-    aes = AES(initial_key, initial_state, 1)
-    final_state = aes.run()
-    print()
-
-    # Displaying the final state for one round of AES encryption
-    final_state_hex = matrix_to_hex(final_state)
-    print("Final state:")
-    print(final_state)
-    print()
-
-    # Displaying the final state in hexadecimal format
-    print(f"Final state in hex: {final_state_hex}")
-    print()
-
-
-
-
-    print("========= Full AES Encryption =========")
-    initial_key = hex_to_4x4matrix(K1)
-    initial_state = hex_to_4x4matrix(x1)
     aes = AES(initial_key, initial_state, 10)
-    final_state = aes.run()
+    aes.run_with_print()
 
-    # Displaying the final state for full AES encryption
-    print("Final state:")
-    print(final_state)
-    print()
 
-    # Displaying the final state in hexadecimal format
-    print(f"Final state in hex: {matrix_to_hex(final_state)}")
-
+if __name__ == "__main__":
+    fix_aes()

@@ -12,17 +12,17 @@ x2 = "02000000000000000000000000000000"
 def hex_to_4x4matrix(hex_bytes):
     return np.array(list(hex_bytes)).reshape(4, 4).T
 
-def bytes_to_matrix(byte_arr):
-    return np.array(byte_arr, dtype=np.uint8).reshape(4, 4).T
 
 def matrix_to_bytes(matrix):
-    return matrix.T.reshape(16,).tobytes()
+    return matrix.T.reshape(16, ).tobytes()
+
 
 def matrix_to_hex(matrix):
     return matrix_to_bytes(matrix).hex()
 
-def hex_to_bytes(hex):
-    return bytes.fromhex(hex)
+
+def hex_to_bytes(hex_string):
+    return bytes.fromhex(hex_string)
 
 
 K1 = hex_to_bytes(K1)
@@ -31,13 +31,15 @@ x1 = hex_to_bytes(x1)
 x2 = hex_to_bytes(x2)
 
 
-def bytes_to_hex(bytes):
-    return bytes.hex()
+def bytes_to_hex(bytes_value):
+    return bytes_value.hex()
+
 
 def is_coprime(a, b):
     while b != 0:
         a, b = b, a % b
     return a == 1
+
 
 def compare_bits(hex1, hex2):
     bits1 = bin(int(hex1, 16))[2:].zfill(128)
@@ -86,7 +88,8 @@ def encrypt_and_compare_a(message1, message2, key, cipher_func, cipher_name):
 
     print(f"Encrypted {cipher_name} x1 with k1: {hex1}")
     print(f"Encrypted {cipher_name} x2 with k1: {hex2}")
-    print(f"Number of different bits: {compare_bits(hex1, hex2)}\n")
+    print(f"Number of different bits: {compare_bits(hex1, hex2)}")
+    print(f"Diffusion: {assess_diffusion(compare_bits(hex1, hex2), 128)}\n")
 
 
 def encrypt_and_compare_b(message, key1, key2, cipher_func, cipher_name):
@@ -98,106 +101,144 @@ def encrypt_and_compare_b(message, key1, key2, cipher_func, cipher_name):
 
     print(f"Encrypted {cipher_name} x1 with k1: {hex1}")
     print(f"Encrypted {cipher_name} x1 with k2: {hex2}")
-    print(f"Number of different bits: {compare_bits(hex1, hex2)}\n")
+    print(f"Number of different bits: {compare_bits(hex1, hex2)}")
+    print(f"Diffusion: {assess_key_sensitivity(compare_bits(hex1, hex2), 128)}\n")
+
+
+def assess_diffusion(diff_bits, total_bits):
+    percent_diff = (diff_bits / total_bits) * 100
+
+    if percent_diff > 50:
+        return "Excellent diffusion"
+    elif percent_diff > 30:
+        return "Good diffusion"
+    elif percent_diff > 10:
+        return "Moderate diffusion"
+    elif percent_diff > 0:
+        return "Poor diffusion"
+    else:
+        return "No diffusion"
+
+
+def assess_key_sensitivity(diff_bits, total_bits):
+    percent_diff = (diff_bits / total_bits) * 100
+
+    if percent_diff > 50:
+        return "Excellent key sensitivity"
+    elif percent_diff > 30:
+        return "Good key sensitivity"
+    elif percent_diff > 10:
+        return "Moderate key sensitivity"
+    elif percent_diff > 0:
+        return "Poor key sensitivity"
+    else:
+        return "No key sensitivity"
+
+
+def xor_encryption(task):
+    if task == 'a':
+        encrypt_and_compare_a(x1, x2, K1, xor_operation, "xor")
+    elif task == 'b':
+        encrypt_and_compare_b(x1, K1, K2, xor_operation, "xor")
+
+
+def affine_encryption(task,):
+    if task == 'a':
+        encrypt_and_compare_a(x1, x2, K1, affine_cipher, "affine")
+    elif task == 'b':
+        encrypt_and_compare_b(x1, K1, K2, affine_cipher, "affine")
+
+
+def one_round_aes_encryption(task):
+    if task == 'a':
+        print("One Round of AES on x1 using K1")
+        initial_state = hex_to_4x4matrix(x1)
+        initial_key = hex_to_4x4matrix(K1)
+        aes = AES(initial_key, initial_state, 1)
+        final_state = aes.run()
+        print(f"Final state in hex: {matrix_to_hex(final_state)}")
+        print()
+
+        print("One Round of AES on x2 using K1")
+        initial_state = hex_to_4x4matrix(x2)
+        aes = AES(initial_key, initial_state, 1)
+        final_state2 = aes.run()
+        print(f"Final state in hex: {matrix_to_hex(final_state2)}")
+        diffusion = compare_bits(matrix_to_hex(final_state), matrix_to_hex(final_state2))
+        print(f"Number of different bits: {diffusion}")
+        print(f"Diffusion: {assess_diffusion(diffusion, 128)}")
+        print()
+    elif task == 'b':
+        print("One Round of AES on x1 using K1")
+        initial_state = hex_to_4x4matrix(x1)
+        initial_key = hex_to_4x4matrix(K1)
+        aes = AES(initial_key, initial_state, 1)
+        final_state = aes.run()
+        print(f"Final state in hex: {matrix_to_hex(final_state)}")
+        print()
+
+        print("One Round of AES on x1 using K2")
+        initial_key = hex_to_4x4matrix(K2)
+        aes = AES(initial_key, initial_state, 1)
+        final_state2 = aes.run()
+        print(f"Final state in hex: {matrix_to_hex(final_state2)}")
+        diffusion = compare_bits(matrix_to_hex(final_state), matrix_to_hex(final_state2))
+        print(f"Number of different bits: {diffusion}\n")
+        print(f"Diffusion: {assess_key_sensitivity(diffusion, 128)}")
+        print()
+
+
+def full_aes_encryption(task):
+    if task == 'a':
+        print("Full AES on x1 using K1")
+        initial_state = hex_to_4x4matrix(x1)
+        initial_key = hex_to_4x4matrix(K1)
+        aes = AES(initial_key, initial_state, 10)
+        final_state = aes.run()
+        print(f"Final state in hex: {matrix_to_hex(final_state)}")
+        print()
+
+        print("Full AES on x2 using K1")
+        initial_state = hex_to_4x4matrix(x2)
+        aes = AES(initial_key, initial_state, 10)
+        final_state2 = aes.run()
+        print(f"Final state in hex: {matrix_to_hex(final_state2)}")
+        diffusion = compare_bits(matrix_to_hex(final_state), matrix_to_hex(final_state2))
+        print(f"Number of different bits: {diffusion}")
+        print(f"Diffusion: {assess_diffusion(diffusion, 128)}")
+        print()
+    elif task == 'b':
+        print("Full AES on x1 using K1")
+        initial_state = hex_to_4x4matrix(x1)
+        initial_key = hex_to_4x4matrix(K1)
+
+        aes = AES(initial_key, initial_state, 10)
+        final_state = aes.run()
+        print(f"Final state in hex: {matrix_to_hex(final_state)}")
+        print()
+
+        print("Full AES on x1 using K2")
+        initial_key = hex_to_4x4matrix(K2)
+        aes = AES(initial_key, initial_state, 10)
+        final_state2 = aes.run()
+        print(f"Final state in hex: {matrix_to_hex(final_state2)}")
+        diffusion = compare_bits(matrix_to_hex(final_state), matrix_to_hex(final_state2))
+        print(f"Number of different bits: {diffusion}")
+        print(f"Diffusion: {assess_key_sensitivity(diffusion, 128)}")
 
 
 if __name__ == '__main__':
+    # Task 2a
     print(
         "a) For each cipher above, encrypt both x1 and x2, using the key K1 and compare the results, with regards to diffusion.\n")
-    # XOR
-    encrypt_and_compare_a(x1, x2, K1, xor_operation, "xor")
+    xor_encryption('a')
+    affine_encryption('a')
+    one_round_aes_encryption('a')
+    full_aes_encryption('a')
 
-    # Affine cipher
-    encrypt_and_compare_a(x1, x2, K1, affine_cipher, "affine")
-
-    # One round of AES
-    print("One Round of AES")
-    initial_state = hex_to_4x4matrix(x1)
-    initial_key = hex_to_4x4matrix(K1)
-    aes = AES(initial_key, initial_state, 1)
-    final_state = aes.run()
-    print("Final state:")
-    print(final_state)
-    print()
-
-    print(f"Final state in hex: {matrix_to_hex(final_state)}")
-
-    initial_state = hex_to_4x4matrix(x2)
-    aes = AES(initial_key, initial_state, 1)
-    final_state = aes.run()
-    print("Final state:")
-    print(final_state)
-    print()
-
-    print(f"Final state in hex: {matrix_to_hex(final_state)}")
-
-    # Full AES
-    print("Full AES")
-    initial_state = hex_to_4x4matrix(x1)
-    initial_key = hex_to_4x4matrix(K1)
-    aes = AES(initial_key, initial_state, 10)
-    final_state = aes.run()
-    print("Final state:")
-    print(final_state)
-    print()
-
-    print(f"Final state in hex: {matrix_to_hex(final_state)}")
-
-    initial_state = hex_to_4x4matrix(x2)
-    aes = AES(initial_key, initial_state, 10)
-    final_state = aes.run()
-    print("Final state:")
-    print(final_state)
-
-    print(f"Final state in hex: {matrix_to_hex(final_state)}")
-
+    # Task 2b
     print("b) For each cipher, encrypt x1 using K1 and K2, and compare the results. How many bits change?\n")
-    # XOR
-    encrypt_and_compare_b(x1, K1, K2, xor_operation, "xor")
-
-    # Affine cipher
-    encrypt_and_compare_b(x1, K1, K2, affine_cipher, "affine")
-
-    # One round of AES
-    print("One Round of AES")
-    initial_state = hex_to_4x4matrix(x1)
-    initial_key = hex_to_4x4matrix(K1)
-    aes = AES(initial_key, initial_state, 1)
-    final_state = aes.run()
-    print("Final state:")
-    print(final_state)
-    print()
-
-    print(f"Final state in hex: {matrix_to_hex(final_state)}")
-
-    initial_key = hex_to_4x4matrix(K2)
-    aes = AES(initial_key, initial_state, 1)
-    final_state = aes.run()
-    print("Final state:")
-    print(final_state)
-    print()
-
-    print(f"Final state in hex: {matrix_to_hex(final_state)}")
-
-    # Full AES
-    print("Full AES")
-    initial_state = hex_to_4x4matrix(x1)
-    initial_key = hex_to_4x4matrix(K1)
-
-    aes = AES(initial_key, initial_state, 10)
-    final_state = aes.run()
-    print("Final state:")
-    print(final_state)
-    print()
-
-    print(f"Final state in hex: {matrix_to_hex(final_state)}")
-
-    initial_key = hex_to_4x4matrix(K2)
-    aes = AES(initial_key, initial_state, 10)
-    final_state = aes.run()
-    print("Final state:")
-    print(final_state)
-    print()
-
-    print(f"Final state in hex: {matrix_to_hex(final_state)}")
-
+    xor_encryption('b')
+    affine_encryption('b')
+    one_round_aes_encryption('b')
+    full_aes_encryption('b')
