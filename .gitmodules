@@ -1,3 +1,6 @@
 [submodule "exercises/03"]
 	path = exercises/03
 	url = git@github.com:ecschoye/free-lounge.git
+[submodule "exercises/security/03/free-lounge"]
+	path = exercises/security/03/free-lounge
+	url = https://github.com/ecschoye/free-lounge
