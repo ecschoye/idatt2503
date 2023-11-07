@@ -51,25 +51,12 @@ if __name__ == "__main__":
     encrypted_text = encrypt(plaintext)
     print(f"Encrypted Message: {encrypted_text}\n")
 
-    print("Decrypting Back to Original Message")
-    decrypted_text = decrypt(encrypted_text)
-    print(f"Decrypted Message: {decrypted_text}\n")
-
     print("=== Case 2: Encrypting 'dette er en test' ===")
     print(f"Input Message: {plaintext_2}")
     encrypted_text = encrypt(plaintext_2)
     print(f"Encrypted Message: {encrypted_text}\n")
 
-    print("Decrypting Back to Original Message")
-    decrypted_text = decrypt(encrypted_text)
-    print(f"Decrypted Message: {decrypted_text}\n")
-    print()
-
     print("=== Case 3: Decrypting 'qvxæyy hkgdgk,,oqhdnc' ===")
     print(f"Input Cipher: {ciphertext}")
     decrypted_text = decrypt(ciphertext)
     print(f"Decrypted Message: {decrypted_text}\n")
-
-    print("Encrypting Back to Original Cipher")
-    encrypted_text = encrypt(decrypted_text)
-    print(f"Encrypted Message: {encrypted_text}\n")

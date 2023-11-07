@@ -1,5 +1,12 @@
 import numpy as np
 
+"""
+Tools used: 
+https://www.cryptool.org/en/cto/aes-animation
+https://www.cryptool.org/en/cto/aes-step-by-step
+"""
+
+
 alphabet = "abcdefghijklmnopqrstuvwxyz"
 
 K1 = "0123456789ABCDEF0123456789ABCDEF"
