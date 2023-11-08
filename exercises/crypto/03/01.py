@@ -31,8 +31,8 @@ def lfsr_a(key):
 
 def lfsr_b(key):
     first_bit = key & 1
-    third_bit = (key >> 2) & 1
-    new_bit = (first_bit + third_bit) % 2
+    fourth_bit = (key >> 3) & 1
+    new_bit = (first_bit + fourth_bit) % 2
     original_part = key >> 1
     new_key = (new_bit << 3) | original_part
     print(format(new_key, '04b'))
