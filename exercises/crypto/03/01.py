@@ -25,7 +25,7 @@ def lfsr_a(key):
     new_bit = (first_bit + second_bit + third_bit + fourth_bit) % 2
     original_part = key >> 1
     new_key = (new_bit << 3) | original_part
-    # print(format(new_key, '04b'))
+    print(format(new_key, '04b'))
     return new_key
 
 
@@ -35,24 +35,40 @@ def lfsr_b(key):
     new_bit = (first_bit + third_bit) % 2
     original_part = key >> 1
     new_key = (new_bit << 3) | original_part
-    # print(format(new_key, '04b'))
+    print(format(new_key, '04b'))
     return new_key
 
 
 def task_a(_K1, _K2, _K3):
+    print(format(_K1, '04b'))
+    print("-----")
     lf = lfsr(lfsr_a, _K1)
     print(f"Period of K1 is {lf}")
+    print()
+    print(format(_K2, '04b'))
+    print("-----")
     lf_2 = lfsr(lfsr_a, _K2)
     print(f"Period of K2 is {lf_2}")
+    print()
+    print(format(_K3, '04b'))
+    print("-----")
     lf_3 = lfsr(lfsr_a, _K3)
     print(f"Period of K3 is {lf_3}")
 
 
 def task_b(_K1, _K2, _K3):
+    print(format(_K1, '04b'))
+    print("-----")
     lf = lfsr(lfsr_b, _K1)
     print(f"Period of K1 is {lf}")
+    print()
+    print(format(_K2, '04b'))
+    print("-----")
     lf_2 = lfsr(lfsr_b, _K2)
     print(f"Period of K2 is {lf_2}")
+    print()
+    print(format(_K3, '04b'))
+    print("-----")
     lf_3 = lfsr(lfsr_b, _K3)
     print(f"Period of K3 is {lf_3}")
 
