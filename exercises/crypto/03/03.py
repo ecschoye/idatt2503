@@ -49,8 +49,8 @@ if __name__ == '__main__':
     print()
 
     # Not sure if it meant to be CBC-MAC of x prime with e_3 or e_3_inv
-    print(f"Message x prime: {format(x_prime, '016b')}")
-    print(f"CBC-MAC x prime: {format(cbc_mac(x_prime), '08b')}")
+    print(f"Message x': {format(x_prime, '016b')}")
+    print(f"CBC-MAC x': {format(cbc_mac(x_prime), '08b')}")
     print()
-    print(f"Message x prime: {format(x_prime, '016b')}")
-    print(f"CBC-MAC inv x prime: {format(cbc_mac_inv(x_prime), '08b')}")
+    print(f"Message x': {format(x_prime, '016b')}")
+    print(f"CBC-MAC inv x': {format(cbc_mac_inv(x_prime), '08b')}")
