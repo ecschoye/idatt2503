@@ -13,7 +13,7 @@ b) Find their common key.
 
 def powers(base, _range):
     for i in range(1, _range + 1):
-        yield base ** i
+        yield base ** i % 101
 
 
 def find_common_key(_p=101, _n=3, _a=33, _b=65):
