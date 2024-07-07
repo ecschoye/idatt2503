@@ -89,7 +89,7 @@ This section demonstrates that a typo in a dynamically linked library (`libfunct
 
 Run `./c_example` and observe the output. Here's what the output looks like before fixing the typo:
 
-![Before Fixing Typo](https://github.com/ecschoye/idatt2503/blob/main/exercises/04/03/before.png)
+![Before Fixing Typo](https://github.com/ecschoye/idatt2503/blob/main/exercises/security/04/03/before.png)
 
 ### Fixing the Typo
 
@@ -106,6 +106,6 @@ sudo cp libfunctions.so /usr/lib
 Run `./c_example` again without recompiling it. Here's what the output looks like after fixing the typo:
 
 
-![After Fixing Typo](https://github.com/ecschoye/idatt2503/blob/main/exercises/04/03/after.png)
+![After Fixing Typo](https://github.com/ecschoye/idatt2503/blob/main/exercises/security/04/03/after.png)
 
 By following these steps, you will see that the typo is fixed even without recompiling `c_example`.

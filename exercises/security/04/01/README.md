@@ -30,7 +30,7 @@ To confirm that the output is directed to standard error and not standard output
 ./hello 2> stderr.txt
 ```
 
-![Output](https://github.com/ecschoye/idatt2503/blob/main/exercises/04/01/output.png)
+![Output](https://github.com/ecschoye/idatt2503/blob/main/exercises/security/04/01/output.png)
 
 To check that the program returns the correct error code, use the echo $? command immediately after executing your program. This will display the return code of the last executed command.
 
@@ -38,7 +38,7 @@ To check that the program returns the correct error code, use the echo $? comman
 echo $?
 ```
 
-![Verify Standard Error](https://github.com/ecschoye/idatt2503/blob/main/exercises/04/01/verify_standard_error.png)
+![Verify Standard Error](https://github.com/ecschoye/idatt2503/blob/main/exercises/security/04/01/verify_standard_error.png)
 
 
 If it returns 1, this confirms that your program has successfully returned an error code of 1, indicating an error occurred as expected.
