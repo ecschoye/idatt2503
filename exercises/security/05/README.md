@@ -58,7 +58,7 @@ Run the fuzzer:
 Run the fuzzer:
 
 ```bash
-./tests/replace_fuzzer_test ../corpus -max_total_time=60
+./build/tests/replace_fuzzer_test ../corpus -max_total_time=60
 ```
 
 
