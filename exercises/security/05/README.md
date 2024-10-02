@@ -14,6 +14,21 @@ This repository contains code for a fuzzing exercise in the IDATT2503 course at 
 - `tests/CMakeLists.txt`: CMake build configuration for tests.
 - `c_fuzzing.yml`: GitHub Actions CI configuration.
 
+## Docker Setup
+
+### Building the Docker Image
+To set up the environment for building and testing, use Docker. First, build the Docker container using:
+
+```bash
+docker-compose build
+```
+
+### Running the Docker Container
+To enter the Docker container and run the tests:
+```bash
+docker-compose run fuzzing-exercise bash
+```
+
 ## Build and Run
 
 ### Building Main Program
@@ -30,13 +45,7 @@ Run the main program:
 ./build/c
 ```
 
-### Building and Running the Fuzzer
-```bash
-mkdir build
-cd build
-CC=clang cmake ..
-make
-```
+### Running the Fuzzer
 
 Run the fuzzer:
 
@@ -44,7 +53,18 @@ Run the fuzzer:
 ./build/tests/replace_fuzzer_test -max_total_time=60
 ```
 
-Run tests:
+### Running the Fuzzer with Corpus
+
+Run the fuzzer:
+
+```bash
+./tests/replace_fuzzer_test ../corpus -max_total_time=60
+```
+
+
+### Running Unit Tests:
+
+Run the unit tests:
 
 ```bash
 ./build/tests/replace_test
